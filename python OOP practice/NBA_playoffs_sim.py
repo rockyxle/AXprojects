@@ -1,5 +1,5 @@
 #AXPV
-import random
+import random # Factor for generating random winners
 # Create team class
 class Team:
     def __init__(self, teamName, teamStrength, teamConf):
@@ -9,20 +9,60 @@ class Team:
 
 # Create Game Class
 class Game:
-    def __init__(self):
-        # Score
-        pass
+    # Initializing the characteristics of a game (what is included)
+    def __init__(self, team1, team2):
+        self.team1 = team1
+        self.team2 = team2
+        self.score1 = 0
+        self.score2 =0
+
+
+        def play_game(self):
+            # Base score for an NBA game
+            baseScore = random.randint(85, 120)
+    
+            # How the scoring works, influenced by randomness and team strength
+            self.score1 = baseScore + random.randint(0, 10) + (self.team1.teamStrength // 10)
+            self.score2 = baseScore + random.randint(0, 10) + (self.team2.teamStrength // 10)
+    
+            if self.score1 > self.score2:
+                self.winner = self.team1
+                print(f"The winner is {self.winner.teamName}")
+            elif self.score1 < self.score2:
+                self.winner = self.team2
+                print(f"The winner is {self.winner.teamName}")
+            else:
+                print("The game is a tie. Replaying...")
+                self.play()
+
+
 
 #Create series class
 class Series:
-    def __init__(self):
-        pass
+    def __init__(self, team1, team2):
+        self.team1 = team1
+        self.team2 = team2
+        self.wins1 = 0
+        self.wins2 = 0
+
+    def play_series(self):
+        while self.wins1  < 4 and self.wins2  < 4:
+            game = Game(self.team1, self.team2)
+            
+                
+
+
+
+        #Call Game function to simulate many games
+        # Maraming games
+        # First to 4 wins
 #Create Bracket class
 class Bracket:
     def __init__(self):
         pass
 #Initialize 8 teams per conference
 
+# Pick eight Eastern Conference Teams
 east_teams = [
     Team("Cleveland Cavaliers", 95, "east"),
     Team("New York Knicks", 94, "east"),
@@ -34,6 +74,7 @@ east_teams = [
     Team("Atlanta Hawks", 89, "east")
 ]
 
+#Pick eight Western Conference teams
 west_teams = [
     Team("Oklahoma City Thunder", 90, "west"),
     Team("Denver Nuggets", 97, "west"),
