@@ -16,7 +16,7 @@ class Game:
         self.score1 = 0
         self.score2 = 0
         self.winner = None
-
+    # Playing a game, and then determining the winner
     def play_game(self):
         # Base score for an NBA game
         baseScore = random.randint(85, 120)
@@ -45,7 +45,7 @@ class Series:
         self.wins1 = 0
         self.wins2 = 0
         self.game_num = 0  # Fixed: Made this an instance variable
-
+    # For determining the winner of a series
     def play_series(self):
         # Games continue until one team reaches 4 wins
         while self.wins1 < 4 and self.wins2 < 4:
@@ -73,6 +73,7 @@ class Series:
 # The whole playoffs are going to be run here
 # FR = First Round
 # CS = conference semifinals = second round
+# Matchups (Seeding) (1v8, 2v7, 3v6, 4v5)
 class Bracket:
     def __init__(self, east_teams, west_teams):
         self.east_teams = east_teams
@@ -83,6 +84,21 @@ class Bracket:
         self.west_CS_winners = []
         self.conference_champions = []
         self.NBA_champion = None
+
+    def play_first_round(self):
+        print("EASTERN CONFERENCE FIRST ROUND \n")
+
+        for i in range (0, 8, 2):
+            # Made an instance of the series class which includes the arrays of east and west teams
+            series = Series(self.east_teams[i], self.east_teams[i+1])
+            winner = series.play_series()
+            self.east_FR_winners.append(winner)
+
+        print("WESTERN CONFERENCE FIRST ROUND\n")
+        for i in range (0, 8, 2):
+            series = Series(self.west_teams[i], self.west_teams[i+1])
+            winner = series.play_series()
+            self.west_FR_winners.append(winner)            
 
 
 
