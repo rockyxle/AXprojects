@@ -1,5 +1,6 @@
 #AXPV
 import random # Factor for generating random winners
+
 # Create team class
 class Team:
     def __init__(self, teamName, teamStrength, teamConf):
@@ -44,23 +45,34 @@ class Series:
         self.team2 = team2
         self.wins1 = 0
         self.wins2 = 0
+        game_num = 0
 
     def play_series(self):
+        # Games continue until one team reaches 4 wins
         while self.wins1  < 4 and self.wins2  < 4:
             game = Game(self.team1, self.team2)
-            
-                
+            winner = game.play_game()
+            game_num +=1
 
+            print(f"Game {game_num} score: \n {self.team1.teamName:} {game.score1} -")
 
+            # Increment wins of winning teams per game played
+            if winner == self.team1:
+                self.wins1 +=1
+            else:
+                self.wins2 += 1     
+        # Printing the series winner (first to 4 wins)
+        if self.wins1 == 4:
+            print(f"The winner for this round is {self.team1} with a series score of {self.wins1} - {self.wins2}")
 
-        #Call Game function to simulate many games
-        # Maraming games
-        # First to 4 wins
+        else:
+            print(f"The winner for this round is {self.team2} with a series score of {self.wins2} - {self.wins1}")
+
 #Create Bracket class
 class Bracket:
     def __init__(self):
         pass
-#Initialize 8 teams per conference
+
 
 # Pick eight Eastern Conference Teams
 east_teams = [
