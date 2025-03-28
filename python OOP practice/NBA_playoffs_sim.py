@@ -10,33 +10,32 @@ class Team:
 
 # Create Game Class
 class Game:
-    # Initializing the characteristics of a game (what is included)
     def __init__(self, team1, team2):
         self.team1 = team1
         self.team2 = team2
         self.score1 = 0
-        self.score2 =0
+        self.score2 = 0
+        self.winner = None
 
+    def play_game(self):
+        # Base score for an NBA game
+        baseScore = random.randint(85, 120)
 
-        def play_game(self):
-            # Base score for an NBA game
-            baseScore = random.randint(85, 120)
-    
-            # How the scoring works, influenced by randomness and team strength
-            self.score1 = baseScore + random.randint(0, 10) + (self.team1.teamStrength // 10)
-            self.score2 = baseScore + random.randint(0, 10) + (self.team2.teamStrength // 10)
-    
-            if self.score1 > self.score2:
-                self.winner = self.team1
-                print(f"The winner is {self.winner.teamName}")
-            elif self.score1 < self.score2:
-                self.winner = self.team2
-                print(f"The winner is {self.winner.teamName}")
-            else:
-                print("The game is a tie. Replaying...")
-                self.play()
+        # How the scoring works, influenced by randomness and team strength
+        self.score1 = baseScore + random.randint(0, 10) + (self.team1.teamStrength // 10)
+        self.score2 = baseScore + random.randint(0, 10) + (self.team2.teamStrength // 10)
 
-
+        if self.score1 > self.score2:
+            self.winner = self.team1
+            print(f"The winner is {self.winner.teamName}")
+        elif self.score1 < self.score2:
+            self.winner = self.team2
+            print(f"The winner is {self.winner.teamName}")
+        else:
+            print("The game is a tie. Replaying...")
+            self.play_game()
+        
+        return self.winner
 
 #Create series class
 class Series:
@@ -45,28 +44,30 @@ class Series:
         self.team2 = team2
         self.wins1 = 0
         self.wins2 = 0
-        game_num = 0
+        self.game_num = 0  # Fixed: Made this an instance variable
 
     def play_series(self):
         # Games continue until one team reaches 4 wins
-        while self.wins1  < 4 and self.wins2  < 4:
+        while self.wins1 < 4 and self.wins2 < 4:
             game = Game(self.team1, self.team2)
             winner = game.play_game()
-            game_num +=1
+            self.game_num += 1
 
-            print(f"Game {game_num} score: \n {self.team1.teamName:} {game.score1} -")
+            print(f"Game {self.game_num} score: \n{self.team1.teamName}: {game.score1} - {self.team2.teamName}: {game.score2}")
 
             # Increment wins of winning teams per game played
             if winner == self.team1:
-                self.wins1 +=1
+                self.wins1 += 1
             else:
-                self.wins2 += 1     
+                self.wins2 += 1
+                
         # Printing the series winner (first to 4 wins)
         if self.wins1 == 4:
-            print(f"The winner for this round is {self.team1} with a series score of {self.wins1} - {self.wins2}")
-
+            print(f"The winner for this round is {self.team1.teamName} with a series score of {self.wins1} - {self.wins2}")
+            return self.team1
         else:
-            print(f"The winner for this round is {self.team2} with a series score of {self.wins2} - {self.wins1}")
+            print(f"The winner for this round is {self.team2.teamName} with a series score of {self.wins2} - {self.wins1}")
+            return self.team2
 
 #Create Bracket class
 # The whole playoffs are going to be run here
