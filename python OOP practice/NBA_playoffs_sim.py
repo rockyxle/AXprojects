@@ -69,9 +69,23 @@ class Series:
             print(f"The winner for this round is {self.team2} with a series score of {self.wins2} - {self.wins1}")
 
 #Create Bracket class
+# The whole playoffs are going to be run here
+# FR = First Round
+# CS = conference semifinals = second round
 class Bracket:
-    def __init__(self):
-        pass
+    def __init__(self, east_teams, west_teams):
+        self.east_teams = east_teams
+        self.west_teams = west_teams
+        self.east_FR_winners = []
+        self.west_FR_winners = []
+        self.east_CS_winners = []
+        self.west_CS_winners = []
+        self.conference_champions = []
+        self.NBA_champion = None
+
+
+
+        
 
 
 # Pick eight Eastern Conference Teams
@@ -97,3 +111,5 @@ west_teams = [
     Team("Memphis Grizzlies", 92, "west"),
     Team("Minnesota Timberwolves", 93, "west")
 ]
+
+# playoffs_sim = pl
