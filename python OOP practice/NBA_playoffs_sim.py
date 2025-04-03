@@ -1,7 +1,7 @@
 #AXPV
 import random # Factor for generating random winners
 
-# Create team class
+# Create Team class
 class Team:
     def __init__(self, teamName, teamStrength, teamConf):
         self.teamName = teamName
@@ -70,7 +70,6 @@ class Series:
             return self.team2
 
 #Create Bracket class
-# The whole playoffs are going to be run here
 # FR = First Round
 # CS = conference semifinals = second round
 # Matchups (Seeding) (1v8, 2v7, 3v6, 4v5)
@@ -88,21 +87,35 @@ class Bracket:
     def play_first_round(self):
         print("EASTERN CONFERENCE FIRST ROUND \n")
 
-        for i in range (0, 8, 2):
+        for i in range (0, 8):
             # Made an instance of the series class which includes the arrays of east and west teams
-            series = Series(self.east_teams[i], self.east_teams[i+1])
-            winner = series.play_series()
-            self.east_FR_winners.append(winner)
+            first_round_east = Series(self.east_teams[i], self.east_teams[len(self.east_teams)-i])
+            winner_east_first_round = first_round_east.play_series()
+            self.east_FR_winners.append(winner_east_first_round)
 
         print("WESTERN CONFERENCE FIRST ROUND\n")
-        for i in range (0, 8, 2):
-            series = Series(self.west_teams[i], self.west_teams[i+1])
-            winner = series.play_series()
-            self.west_FR_winners.append(winner)            
+        for i in range (0, 8):
+            first_round_west = Series(self.west_teams[i], self.west_teams[len(self.west_teams)-i])
+            winner_west_first_round = first_round_west.play_series()
+            self.west_FR_winners.append(winner_west_first_round)            
 
+# For second round, get winners of first round
+    def play_second_round(self):
+        print("EASTERN CONFERENCE SECOND ROUND")
 
+        for i in range (0, 4, 2):
+            second_round_east = Series(self.east_FR_winners[i], self.east_FR_winners[i+1])
+            winner_east_second_round = second_round_east.play_series()
+            self.east_CS_winners.append(winner_east_second_round)
 
+        print("WESTERN CONFERENCE SECOND ROUND\n")
         
+        for i in range (0 ,4, 2):
+            second_round_west = Series(self.west_FR_winners[i], self.west_FR_winners[i+1])
+            winner_west_second_round = second_round_west.play_series()
+            self.west_CS_winners.append(winner_west_second_round)
+
+            
 
 
 # Pick eight Eastern Conference Teams
@@ -130,3 +143,27 @@ west_teams = [
 ]
 
 # playoffs_sim = pl
+
+def main ():
+    def run_playoff_test():
+        # Create bracket instance
+        playoffs = Bracket(east_teams, west_teams)
+    
+        # Run first round and print winners
+        playoffs.play_first_round()
+        print("\nFirst Round Winners East:")
+        for team in playoffs.east_FR_winners:
+            print(team.teamName)
+    
+        print("\nFirst Round Winners West:")
+        for team in playoffs.west_FR_winners:
+            print(team.teamName)
+    
+    # Run second round and print winners
+        playoffs.play_second_round()
+        print("\nSecond Round Winners East:")
+        for team in playoffs.east_CS_winners:
+            print(team.teamName)
+
+if __name__ == "__main__":
+    main()
