@@ -147,3 +147,4 @@ west_teams = [
 
 # playoffs_sim = pl
 
+print("Hello world")
