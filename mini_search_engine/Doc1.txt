@@ -1,0 +1,4 @@
+this is a test file
+it contains some sample text
+testing search functionality
+the quick brown fox jumps over the lazy dog

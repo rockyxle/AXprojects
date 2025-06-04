@@ -24,6 +24,8 @@ class Game:
         # How the scoring works, influenced by randomness and team strength
         self.score1 = baseScore + random.randint(0, 10) + (self.team1.teamStrength // 10)
         self.score2 = baseScore + random.randint(0, 10) + (self.team2.teamStrength // 10)
+        print(f"Final score: {self.team1.teamName} {self.score1} - {self.team2.teamName} {self.score2}")
+        
 
         if self.score1 > self.score2:
             self.winner = self.team1
@@ -60,6 +62,7 @@ class Series:
                 self.wins1 += 1
             else:
                 self.wins2 += 1
+        print(f"Starting series: {self.team1.teamName, self.team2.teamName}")
                 
         # Printing the series winner (first to 4 wins)
         if self.wins1 == 4:
@@ -145,7 +148,6 @@ west_teams = [
 # playoffs_sim = pl
 
 def main ():
-    def run_playoff_test():
         # Create bracket instance
         playoffs = Bracket(east_teams, west_teams)
     

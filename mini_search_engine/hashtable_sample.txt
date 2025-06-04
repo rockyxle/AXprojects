@@ -1,0 +1,95 @@
+//Hashtable
+    public class StringHashTable {
+        // Create a node for making a linked list in each bucket (chaining)
+        private static class Node {
+            String value;
+            Node next;
+
+            Node(String value) {
+                this.value = value;
+                this.next = null;
+            }
+        }
+
+        private final int SIZE = 503;
+        private Node[] buckets;
+
+        public StringHashTable() {
+            buckets = new Node[SIZE];
+        }
+
+        private int hash(String key) {
+            return Math.abs(key.hashCode() % SIZE);
+        }
+
+        public void insert(String value) {
+            int index = hash(value);
+            Node newNode = new Node(value);
+
+            if (buckets[index] == null) {
+                buckets[index] = newNode;
+            } else {
+                newNode.next = buckets[index];
+                buckets[index] = newNode;
+            }
+        }
+
+        public boolean search(String value) {
+            int index = hash(value);
+            Node current = buckets[index];
+
+            while (current != null) {
+                if (current.value.equals(value)) {
+                    return true;
+                }
+                current = current.next;
+            }
+            return false;
+        }
+    }
+
+
+
+    public class StringHashTable {
+    private static class Node {
+        String word;
+        HashSet<String> documents;  // Track documents containing this word
+        Node next;
+
+        Node(String word, String document) {
+            this.word = word;
+            this.documents = new HashSet<>();
+            this.documents.add(document);
+            this.next = null;
+        }
+    }
+
+    private final int SIZE = 503;
+    private Node[] buckets;
+
+    public StringHashTable() {
+        buckets = new Node[SIZE];
+    }
+
+    public void insert(String word, String document) {
+        // ... existing hash table code ...
+    }
+}
+
+public void readFile() throws IOException {
+    String[] documents = {"Doc1.txt", "Doc2.txt", "Doc3.txt"};
+    for (String doc : documents) {
+        try (BufferedReader br = new BufferedReader(new FileReader(doc))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                // Split line into words
+                String[] words = line.toLowerCase().split("\\W+");
+                for (String word : words) {
+                    if (!word.isEmpty()) {
+                        hashTable.insert(word, doc);
+                    }
+                }
+            }
+        }
+    }
+}
