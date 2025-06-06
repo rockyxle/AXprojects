@@ -84,7 +84,8 @@ class Bracket:
         self.west_FR_winners = []
         self.east_CS_winners = []
         self.west_CS_winners = []
-        self.conference_champions = []
+        self.east_conference_champ
+        self.west_conference_champ = []
         self.NBA_champion = None
 
     def play_first_round(self):
@@ -117,6 +118,30 @@ class Bracket:
             second_round_west = Series(self.west_FR_winners[i], self.west_FR_winners[i+1])
             winner_west_second_round = second_round_west.play_series()
             self.west_CS_winners.append(winner_west_second_round)
+
+    def play_conference_finals(self):
+        print  ("EASTERN CONFERENCE FINALS")
+
+        for i in range (0, 1):
+            conference_finals_east = Series(self.east_CS_winners[i], self.east_CS_winners[i+1])
+            winner_ecf = conference_finals_east.play_series()
+            self.east_conference_champ = winner_ecf
+
+        print ("WESTERN CONFERENCE FINALS")
+        for i in range (0, 1):
+            conference_finals_west = Series(self.west_CS_winners[i], self.west_CS_winners[i+1])
+            winner_wcf = conference_finals_west.play_series()
+            self.west_conference_champ = winner_wcf
+
+    def play_nba_finals(self):
+        print ("NBA FINALS")
+
+        for i in range (0, 1):
+            nba_finals = Series(self.west_conference_champ, self.east_conference_champ)
+            nba_champ = nba_finals.play_series()
+            self.NBA_champion = nba_champ
+
+            
 
             
 
