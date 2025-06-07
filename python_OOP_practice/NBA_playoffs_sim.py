@@ -25,6 +25,7 @@ class Game:
         self.score1 = baseScore + random.randint(0, 10) + (self.team1.teamStrength // 10)
         self.score2 = baseScore + random.randint(0, 10) + (self.team2.teamStrength // 10)
         print(f"Final score: {self.team1.teamName} {self.score1} - {self.team2.teamName} {self.score2}")
+        print("-------------------------------------------------------------------------------------------")
         
 
         if self.score1 > self.score2:
@@ -66,10 +67,10 @@ class Series:
                 
         # Printing the series winner (first to 4 wins)
         if self.wins1 == 4:
-            print(f"The winner for this round is {self.team1.teamName} with a series score of {self.wins1} - {self.wins2}")
+            print(f"The winner for this round is the {self.team1.teamName} with a series score of {self.wins1} - {self.wins2}")
             return self.team1
         else:
-            print(f"The winner for this round is {self.team2.teamName} with a series score of {self.wins2} - {self.wins1}")
+            print(f"The winner for this round is the {self.team2.teamName} with a series score of {self.wins2} - {self.wins1}")
             return self.team2
 
 #Create Bracket class
@@ -84,62 +85,73 @@ class Bracket:
         self.west_FR_winners = []
         self.east_CS_winners = []
         self.west_CS_winners = []
-        self.east_conference_champ
+        self.east_conference_champ = []
         self.west_conference_champ = []
         self.NBA_champion = None
 
     def play_first_round(self):
         print("EASTERN CONFERENCE FIRST ROUND \n")
-
-        for i in range (0, 8):
+        
+        series_matchups = ([0,7], (1,6), (2,5), (3,4))
+        for seed1, seed2 in series_matchups:
             # Made an instance of the series class which includes the arrays of east and west teams
-            first_round_east = Series(self.east_teams[i], self.east_teams[len(self.east_teams)-i])
+            first_round_east = Series(self.east_teams[seed1], self.east_teams[seed2])
             winner_east_first_round = first_round_east.play_series()
             self.east_FR_winners.append(winner_east_first_round)
 
         print("WESTERN CONFERENCE FIRST ROUND\n")
-        for i in range (0, 8):
-            first_round_west = Series(self.west_teams[i], self.west_teams[len(self.west_teams)-i])
+        for seed1, seed2 in series_matchups:
+            first_round_west = Series(self.west_teams[seed1], self.west_teams[seed2])
             winner_west_first_round = first_round_west.play_series()
             self.west_FR_winners.append(winner_west_first_round)            
 
 # For second round, get winners of first round
     def play_second_round(self):
         print("EASTERN CONFERENCE SECOND ROUND")
+        # winner of first  round 1v8 and 4v5
+        second_round_east1 = Series(self.east_FR_winners[0], self.east_FR_winners[3])
+        winner_east_second_round1 = second_round_east1.play_series()
+        self.east_CS_winners.append(winner_east_second_round1)
 
-        for i in range (0, 4, 2):
-            second_round_east = Series(self.east_FR_winners[i], self.east_FR_winners[i+1])
-            winner_east_second_round = second_round_east.play_series()
-            self.east_CS_winners.append(winner_east_second_round)
+        # winner of first round 2v7 and 3v6
+        second_round_east2 = Series(self.east_FR_winners[1], self.east_FR_winners[2])
+        winner_east_second_round2 = second_round_east2.play_series()
+        self.east_CS_winners.append(winner_east_second_round2)
 
         print("WESTERN CONFERENCE SECOND ROUND\n")
-        
-        for i in range (0 ,4, 2):
-            second_round_west = Series(self.west_FR_winners[i], self.west_FR_winners[i+1])
-            winner_west_second_round = second_round_west.play_series()
-            self.west_CS_winners.append(winner_west_second_round)
+        # winner of first  round 1v8 and 4v5
+        second_round_west1 = Series(self.west_FR_winners[0], self.west_FR_winners[3])
+        winner_west_second_round1 = second_round_west1.play_series()
+        self.west_CS_winners.append(winner_west_second_round1)
 
+        # winner of first round 2v7 and 3v6
+        second_round_west2 = Series(self.west_FR_winners[1], self.west_FR_winners[2])
+        winner_west_second_round2 = second_round_west2.play_series()
+        self.west_CS_winners.append(winner_west_second_round1)
+
+
+# conference finals
     def play_conference_finals(self):
         print  ("EASTERN CONFERENCE FINALS")
 
-        for i in range (0, 1):
-            conference_finals_east = Series(self.east_CS_winners[i], self.east_CS_winners[i+1])
-            winner_ecf = conference_finals_east.play_series()
-            self.east_conference_champ = winner_ecf
+        conference_finals_east = Series(self.east_CS_winners[0], self.east_CS_winners[1])
+        winner_ecf = conference_finals_east.play_series()
+        self.east_conference_champ = winner_ecf
 
         print ("WESTERN CONFERENCE FINALS")
-        for i in range (0, 1):
-            conference_finals_west = Series(self.west_CS_winners[i], self.west_CS_winners[i+1])
-            winner_wcf = conference_finals_west.play_series()
-            self.west_conference_champ = winner_wcf
+     
+        conference_finals_west = Series(self.west_CS_winners[0], self.west_CS_winners[1])
+        winner_wcf = conference_finals_west.play_series()
+        self.west_conference_champ = winner_wcf
+
+# nba finals
 
     def play_nba_finals(self):
         print ("NBA FINALS")
-
-        for i in range (0, 1):
-            nba_finals = Series(self.west_conference_champ, self.east_conference_champ)
-            nba_champ = nba_finals.play_series()
-            self.NBA_champion = nba_champ
+        nba_finals = Series(self.west_conference_champ, self.east_conference_champ)
+        nba_champ = nba_finals.play_series()
+        self.NBA_champion = nba_champ
+        print(f"The {self.NBA_champion.teamName} is the NBA Champion!")
 
             
 
@@ -170,6 +182,12 @@ west_teams = [
     Team("Minnesota Timberwolves", 93, "west")
 ]
 
-# playoffs_sim = pl
 
-print("Hello world")
+playoff_sim = Bracket(east_teams, west_teams)
+
+
+# Then call these methods in order to simulate the entire playoffs:
+playoff_sim.play_first_round()
+playoff_sim.play_second_round()
+playoff_sim.play_conference_finals()
+playoff_sim.play_nba_finals()
